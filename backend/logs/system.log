@@ -1,0 +1,526 @@
+2026-05-27 21:35:21.147 | INFO     | __main__:<module>:6 - Application Started
+2026-05-27 21:35:21.148 | WARNING  | __main__:<module>:7 - This is warning
+2026-05-27 21:35:21.148 | ERROR    | __main__:<module>:8 - This is error log
+2026-05-28 11:45:34.413 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 11:48:48.067 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 12:00:36.372 | INFO     | app.services.document_processor:process_document:43 - Processing document: Ebook-Agentic-AI.pdf
+2026-05-28 12:00:46.650 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 12:00:46.653 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 12:09:59.094 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:10:15.587 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:10:15.751 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 2 chunks
+2026-05-28 12:16:22.263 | INFO     | app.services.document_processor:process_document:43 - Processing document: Ebook-Agentic-AI.pdf
+2026-05-28 12:16:33.072 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 12:16:33.076 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 12:16:33.076 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:16:41.552 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:16:48.052 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 100 chunks
+2026-05-28 12:16:48.063 | INFO     | app.retrieval.vector_store:create_index:70 - Created vector index with 100 chunks
+2026-05-28 12:16:48.067 | INFO     | app.retrieval.vector_store:save_index:99 - Vector index saved
+2026-05-28 12:16:48.094 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 12:16:48.095 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 12:23:09.733 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:23:19.304 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:23:19.316 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 12:23:19.317 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 12:23:19.318 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 12:23:19.381 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 12:23:19.382 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 5 chunks
+2026-05-28 12:23:19.382 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 5 chunks
+2026-05-28 12:30:30.181 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 12:30:30.182 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:30:38.983 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:30:38.989 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 12:30:38.990 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 12:30:40.584 | INFO     | app.services.query_service:__init__:61 - Query Service initialized
+2026-05-28 12:30:40.584 | INFO     | app.services.query_service:ask:73 - Received query: Summarize the document
+2026-05-28 12:30:40.585 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 12:30:40.661 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 12:30:40.662 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 5 chunks
+2026-05-28 12:30:40.662 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 5 chunks
+2026-05-28 12:30:42.139 | INFO     | app.services.query_service:ask:101 - Generated response
+2026-05-28 12:35:09.451 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 12:35:09.452 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:35:17.675 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:35:17.740 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 12:35:17.741 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 12:35:18.433 | INFO     | app.services.query_service:__init__:61 - Query Service initialized
+2026-05-28 12:35:18.433 | INFO     | app.services.query_service:ask:73 - Received query: Summarize the document
+2026-05-28 12:35:18.433 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 12:35:18.687 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 12:35:18.688 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 5 chunks
+2026-05-28 12:35:18.689 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 5 chunks
+2026-05-28 12:35:19.875 | INFO     | app.services.query_service:ask:101 - Generated response
+2026-05-28 12:43:46.008 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:43:54.936 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:43:54.937 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 12:43:54.937 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:44:01.986 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:44:01.988 | WARNING  | app.retrieval.retriever:__init__:47 - Could not load index: No saved index found.
+2026-05-28 12:44:02.623 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 12:44:11.299 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:44:19.275 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:44:19.276 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 12:44:19.276 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:44:27.024 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:44:27.025 | WARNING  | app.retrieval.retriever:__init__:47 - Could not load index: No saved index found.
+2026-05-28 12:44:27.589 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 12:44:27.595 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 12:44:43.129 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 12:44:52.054 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:45:00.073 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:45:00.074 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 12:45:00.074 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 12:45:07.578 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 12:45:07.580 | WARNING  | app.retrieval.retriever:__init__:47 - Could not load index: No saved index found.
+2026-05-28 12:45:08.124 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 12:45:08.130 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 15:44:32.419 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 15:45:52.371 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:45:59.790 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:45:59.793 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 15:45:59.794 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:46:07.893 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:46:07.896 | WARNING  | app.retrieval.retriever:__init__:47 - Could not load index: No saved index found.
+2026-05-28 15:46:08.615 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 15:46:17.559 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:46:25.220 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:46:25.223 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 15:46:25.223 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:46:32.320 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:46:32.322 | WARNING  | app.retrieval.retriever:__init__:47 - Could not load index: No saved index found.
+2026-05-28 15:46:32.991 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 15:46:32.999 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 15:51:12.662 | INFO     | app.services.query_service:ask:75 - Received query: Summarize the document
+2026-05-28 15:51:12.663 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 15:51:12.711 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 15:51:12.712 | ERROR    | app.api.routes:query_documents:177 - Query failed: Index not loaded.
+2026-05-28 15:52:36.380 | INFO     | app.api.routes:upload_document:102 - Uploaded file: Ebook-Agentic-AI.pdf
+2026-05-28 15:52:36.381 | INFO     | app.services.document_processor:process_document:43 - Processing document: data\raw_documents\Ebook-Agentic-AI.pdf
+2026-05-28 15:52:47.612 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 15:52:47.615 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 15:52:53.038 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 100 chunks
+2026-05-28 15:52:53.046 | INFO     | app.retrieval.vector_store:create_index:70 - Created vector index with 100 chunks
+2026-05-28 15:52:53.049 | INFO     | app.retrieval.vector_store:save_index:99 - Vector index saved
+2026-05-28 15:53:06.014 | INFO     | app.services.query_service:ask:75 - Received query: Summarize the document
+2026-05-28 15:53:06.014 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 15:53:06.043 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 15:53:06.043 | ERROR    | app.api.routes:query_documents:177 - Query failed: Index not loaded.
+2026-05-28 15:53:09.586 | INFO     | app.services.query_service:ask:75 - Received query: Summarize the document
+2026-05-28 15:53:09.586 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 15:53:09.617 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 15:53:09.618 | ERROR    | app.api.routes:query_documents:177 - Query failed: Index not loaded.
+2026-05-28 15:53:28.448 | INFO     | app.services.query_service:ask:75 - Received query: Summarize the document
+2026-05-28 15:53:28.449 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Summarize the document
+2026-05-28 15:53:28.480 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 15:53:28.480 | ERROR    | app.api.routes:query_documents:177 - Query failed: Index not loaded.
+2026-05-28 15:55:40.072 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 15:55:51.418 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:55:59.521 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:55:59.522 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 15:55:59.522 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:56:07.194 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:56:07.197 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 15:56:07.198 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 15:56:07.898 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 15:56:07.906 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 15:56:44.665 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 15:56:55.297 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:57:04.145 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:57:04.147 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 15:57:04.148 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:57:11.898 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:57:11.900 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 15:57:11.900 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 15:57:12.622 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 15:57:12.629 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 15:57:12.745 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 15:57:28.437 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:57:36.560 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:57:36.562 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 15:57:36.562 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:57:43.777 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:57:43.782 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 15:57:43.783 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 15:57:44.483 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 15:57:54.566 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:58:03.304 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:58:03.307 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 15:58:03.309 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 15:58:11.018 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 15:58:11.032 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 15:58:11.033 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 15:58:11.810 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 15:58:11.818 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 15:59:33.563 | INFO     | app.api.routes:upload_document:102 - Uploaded file: Ebook-Agentic-AI.pdf
+2026-05-28 15:59:33.563 | INFO     | app.services.document_processor:process_document:43 - Processing document: data\raw_documents\Ebook-Agentic-AI.pdf
+2026-05-28 15:59:45.142 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 15:59:45.146 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 15:59:50.979 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 100 chunks
+2026-05-28 15:59:50.982 | INFO     | app.retrieval.vector_store:create_index:70 - Created vector index with 100 chunks
+2026-05-28 15:59:50.984 | INFO     | app.retrieval.vector_store:save_index:99 - Vector index saved
+2026-05-28 16:00:16.326 | INFO     | app.services.query_service:ask:75 - Received query: about agentic ai
+2026-05-28 16:00:16.328 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 16:00:24.379 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 16:00:24.395 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 16:00:24.396 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 16:00:24.396 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: about agentic ai
+2026-05-28 16:00:24.434 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:00:24.435 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 5 chunks
+2026-05-28 16:00:24.436 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 5 chunks
+2026-05-28 16:00:25.346 | INFO     | app.services.query_service:ask:110 - Generated response
+2026-05-28 16:17:06.201 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 16:17:23.135 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 16:17:30.749 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 16:17:30.754 | INFO     | app.services.query_service:__init__:21 - Initializing Query Service...
+2026-05-28 16:17:30.757 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 16:17:37.472 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 16:17:37.475 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 16:17:37.476 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 16:17:38.271 | INFO     | app.services.query_service:__init__:63 - Query Service initialized
+2026-05-28 16:17:38.280 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 16:17:38.390 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 16:25:47.664 | INFO     | app.agents.planner_agent:run:75 - Planning query: Compare benefits and risks of AI
+2026-05-28 16:25:48.334 | INFO     | app.agents.planner_agent:run:111 - Generated 4 sub-queries
+2026-05-28 16:37:38.682 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 16:37:48.387 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 16:37:48.429 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 16:37:48.430 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 16:37:48.430 | INFO     | app.agents.planner_agent:run:75 - Planning query: Compare benefits and risks of AI
+2026-05-28 16:37:49.209 | INFO     | app.agents.planner_agent:run:111 - Generated 4 sub-queries
+2026-05-28 16:37:49.209 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 4 queries
+2026-05-28 16:37:49.209 | INFO     | app.agents.retriever_agent:run:58 - Searching: AI benefits
+2026-05-28 16:37:49.210 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: AI benefits
+2026-05-28 16:37:49.252 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:37:49.253 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:37:49.253 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:37:49.254 | INFO     | app.agents.retriever_agent:run:58 - Searching: AI risks
+2026-05-28 16:37:49.254 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: AI risks
+2026-05-28 16:37:49.275 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:37:49.276 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:37:49.277 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:37:49.277 | INFO     | app.agents.retriever_agent:run:58 - Searching: AI applications
+2026-05-28 16:37:49.278 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: AI applications
+2026-05-28 16:37:49.299 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:37:49.300 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:37:49.301 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:37:49.301 | INFO     | app.agents.retriever_agent:run:58 - Searching: AI impact on society
+2026-05-28 16:37:49.301 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: AI impact on society
+2026-05-28 16:37:49.322 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:37:49.323 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:37:49.323 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:37:49.324 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 9 unique chunks
+2026-05-28 16:45:22.878 | INFO     | app.agents.verifier_agent:run:94 - Running verification
+2026-05-28 16:45:23.987 | INFO     | app.agents.verifier_agent:run:114 - Verification completed
+2026-05-28 16:48:30.292 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 16:48:31.132 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 16:50:40.977 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 16:50:41.561 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 16:54:19.051 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 16:54:19.731 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 16:54:28.444 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 16:54:28.449 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 16:54:28.450 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 16:54:29.584 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 16:54:29.585 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document
+2026-05-28 16:54:29.594 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document
+2026-05-28 16:54:30.292 | INFO     | app.agents.planner_agent:run:111 - Generated 2 sub-queries
+2026-05-28 16:54:30.293 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 2 queries
+2026-05-28 16:54:30.294 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 16:54:30.294 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 16:54:30.343 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:54:30.343 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:54:30.344 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:54:30.344 | INFO     | app.agents.retriever_agent:run:58 - Searching: main points
+2026-05-28 16:54:30.345 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: main points
+2026-05-28 16:54:30.366 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:54:30.367 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:54:30.368 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:54:30.368 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 5 unique chunks
+2026-05-28 16:54:30.370 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 16:54:32.097 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 16:54:32.099 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 16:54:33.328 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 16:54:33.330 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 16:55:26.344 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 16:55:27.022 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 16:55:35.679 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 16:55:35.684 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 16:55:35.685 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 16:55:37.001 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 16:55:37.002 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document
+2026-05-28 16:55:37.007 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document
+2026-05-28 16:55:37.546 | INFO     | app.agents.planner_agent:run:111 - Generated 2 sub-queries
+2026-05-28 16:55:37.548 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 2 queries
+2026-05-28 16:55:37.548 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 16:55:37.548 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 16:55:37.595 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:55:37.596 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:55:37.596 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:55:37.597 | INFO     | app.agents.retriever_agent:run:58 - Searching: main points
+2026-05-28 16:55:37.597 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: main points
+2026-05-28 16:55:37.620 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 16:55:37.621 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 16:55:37.621 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 16:55:37.621 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 5 unique chunks
+2026-05-28 16:55:37.623 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 16:55:38.592 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 16:55:38.595 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 16:55:39.392 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 16:55:39.394 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 17:01:32.065 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:01:40.859 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:01:40.860 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:01:40.861 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:01:41.536 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:01:49.560 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:01:49.562 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:01:49.563 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:01:50.651 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:01:50.652 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:01:59.728 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:02:08.625 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:02:08.626 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:02:08.627 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:02:09.298 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:02:17.340 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:02:17.344 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:02:17.345 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:02:18.435 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:02:18.435 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:02:18.443 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:02:49.568 | INFO     | app.api.routes:upload_document:102 - Uploaded file: Ebook-Agentic-AI.pdf
+2026-05-28 17:02:49.569 | INFO     | app.services.document_processor:process_document:43 - Processing document: data\raw_documents\Ebook-Agentic-AI.pdf
+2026-05-28 17:03:00.499 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 17:03:00.502 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 17:03:05.986 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 100 chunks
+2026-05-28 17:03:05.988 | INFO     | app.retrieval.vector_store:create_index:70 - Created vector index with 100 chunks
+2026-05-28 17:03:05.990 | INFO     | app.retrieval.vector_store:save_index:99 - Vector index saved
+2026-05-28 17:03:35.669 | INFO     | app.services.query_service:ask:40 - Received query: Summarize the document 
+2026-05-28 17:03:35.670 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document 
+2026-05-28 17:03:35.676 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document 
+2026-05-28 17:03:36.602 | INFO     | app.agents.planner_agent:run:111 - Generated 1 sub-queries
+2026-05-28 17:03:36.603 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 1 queries
+2026-05-28 17:03:36.604 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 17:03:36.604 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 17:03:36.639 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:03:36.640 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:03:36.641 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:03:36.641 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 3 unique chunks
+2026-05-28 17:03:36.642 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 17:03:37.686 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 17:03:37.689 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 17:03:38.710 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 17:03:38.711 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 17:03:53.656 | INFO     | app.services.query_service:ask:40 - Received query: Summarize the document 
+2026-05-28 17:03:53.656 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document 
+2026-05-28 17:03:53.658 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document 
+2026-05-28 17:03:53.958 | INFO     | app.agents.planner_agent:run:111 - Generated 1 sub-queries
+2026-05-28 17:03:53.961 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 1 queries
+2026-05-28 17:03:53.962 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 17:03:53.964 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 17:03:54.001 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:03:54.002 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:03:54.003 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:03:54.004 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 3 unique chunks
+2026-05-28 17:03:54.005 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 17:03:55.298 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 17:03:55.302 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 17:03:56.526 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 17:03:56.528 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 17:06:28.819 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:06:37.374 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:06:45.703 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:06:45.703 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:06:45.703 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:06:46.244 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:06:53.171 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:06:53.183 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:06:53.184 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:06:54.084 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:06:54.085 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:06:54.091 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:07:26.700 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:07:35.555 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:07:44.823 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:07:44.823 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:07:44.824 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:07:45.375 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:07:54.677 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:07:54.679 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:07:54.679 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:07:55.581 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:07:55.581 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:07:55.587 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:07:55.694 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:08:04.104 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:08:14.109 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:08:14.110 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:08:14.110 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:08:14.660 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:08:22.601 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:08:22.603 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:08:22.604 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:08:23.574 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:08:23.574 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:08:23.580 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:08:23.693 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:08:32.594 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:08:40.127 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:08:40.128 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:08:40.128 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:08:40.675 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:08:48.023 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:08:48.024 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:08:48.025 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:08:48.931 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:08:48.932 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:08:48.938 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:08:49.052 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:08:57.681 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:09:06.819 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:09:06.820 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:09:06.820 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:09:07.478 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:09:14.128 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:09:14.131 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:09:14.131 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:09:15.060 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:09:15.061 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:09:15.067 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:09:15.174 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:09:24.454 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:09:33.567 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:09:33.568 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:09:33.569 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:09:34.122 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:09:43.384 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:09:43.385 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:09:43.385 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:09:44.300 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:09:44.301 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:09:44.306 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:09:44.417 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:09:53.286 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:10:04.061 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:10:04.063 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:10:04.063 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:10:04.633 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:10:14.151 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:10:14.152 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:10:14.153 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:10:15.105 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:10:15.105 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:10:15.112 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:10:28.568 | INFO     | app.api.routes:upload_document:102 - Uploaded file: Ebook-Agentic-AI.pdf
+2026-05-28 17:10:28.569 | INFO     | app.services.document_processor:process_document:43 - Processing document: data\raw_documents\Ebook-Agentic-AI.pdf
+2026-05-28 17:10:37.734 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 17:10:37.738 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 17:10:42.967 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 100 chunks
+2026-05-28 17:10:42.969 | INFO     | app.retrieval.vector_store:create_index:70 - Created vector index with 100 chunks
+2026-05-28 17:10:42.971 | INFO     | app.retrieval.vector_store:save_index:99 - Vector index saved
+2026-05-28 17:11:10.763 | INFO     | app.services.query_service:ask:40 - Received query: Summarize the document
+2026-05-28 17:11:10.764 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document
+2026-05-28 17:11:10.777 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document
+2026-05-28 17:11:11.465 | INFO     | app.agents.planner_agent:run:111 - Generated 2 sub-queries
+2026-05-28 17:11:11.466 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 2 queries
+2026-05-28 17:11:11.467 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 17:11:11.467 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 17:11:11.493 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:11:11.494 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:11:11.494 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:11:11.494 | INFO     | app.agents.retriever_agent:run:58 - Searching: main points
+2026-05-28 17:11:11.495 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: main points
+2026-05-28 17:11:11.513 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:11:11.513 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:11:11.515 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:11:11.515 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 5 unique chunks
+2026-05-28 17:11:11.516 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 17:11:12.176 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 17:11:12.180 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 17:11:13.130 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 17:11:13.132 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 17:11:17.990 | INFO     | app.api.routes:upload_document:102 - Uploaded file: Ebook-Agentic-AI.pdf
+2026-05-28 17:11:17.991 | INFO     | app.services.document_processor:process_document:43 - Processing document: data\raw_documents\Ebook-Agentic-AI.pdf
+2026-05-28 17:11:27.850 | INFO     | app.services.document_processor:_load_pdf:90 - PDF loaded successfully
+2026-05-28 17:11:27.853 | INFO     | app.services.document_processor:process_document:66 - Created 100 chunks
+2026-05-28 17:11:33.222 | INFO     | app.retrieval.embeddings:embed_documents:41 - Generated embeddings for 100 chunks
+2026-05-28 17:11:33.231 | INFO     | app.retrieval.vector_store:create_index:70 - Created vector index with 100 chunks
+2026-05-28 17:11:33.234 | INFO     | app.retrieval.vector_store:save_index:99 - Vector index saved
+2026-05-28 17:12:05.193 | INFO     | app.services.query_service:ask:40 - Received query: Summarize the document
+2026-05-28 17:12:05.193 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document
+2026-05-28 17:12:05.195 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document
+2026-05-28 17:12:05.927 | INFO     | app.agents.planner_agent:run:111 - Generated 2 sub-queries
+2026-05-28 17:12:05.930 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 2 queries
+2026-05-28 17:12:05.931 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 17:12:05.932 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 17:12:05.965 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:12:05.965 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:12:05.966 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:12:05.966 | INFO     | app.agents.retriever_agent:run:58 - Searching: main points
+2026-05-28 17:12:05.967 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: main points
+2026-05-28 17:12:05.991 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:12:05.991 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:12:05.992 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:12:05.992 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 5 unique chunks
+2026-05-28 17:12:05.993 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 17:12:07.211 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 17:12:07.213 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 17:12:08.806 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 17:12:08.807 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 17:13:29.774 | INFO     | app.main:shutdown_event:24 - Shutting down FastAPI server...
+2026-05-28 17:16:19.834 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:16:26.671 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:16:26.671 | INFO     | app.services.query_service:__init__:20 - Initializing Query Service...
+2026-05-28 17:16:26.672 | INFO     | app.agents.orchestrator:__init__:42 - Initializing agent workflow
+2026-05-28 17:16:27.211 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 17:16:33.499 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 17:16:33.511 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 17:16:33.511 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 17:16:34.403 | INFO     | app.agents.orchestrator:__init__:118 - Workflow initialized
+2026-05-28 17:16:34.404 | INFO     | app.services.query_service:__init__:28 - Query Service initialized
+2026-05-28 17:16:34.410 | INFO     | app.main:startup_event:19 - Starting FastAPI server...
+2026-05-28 17:16:50.946 | INFO     | app.services.query_service:ask:40 - Received query: Summarize the document
+2026-05-28 17:16:50.947 | INFO     | app.agents.orchestrator:run:130 - Running workflow: Summarize the document
+2026-05-28 17:16:50.952 | INFO     | app.agents.planner_agent:run:75 - Planning query: Summarize the document
+2026-05-28 17:16:51.555 | INFO     | app.agents.planner_agent:run:111 - Generated 2 sub-queries
+2026-05-28 17:16:51.556 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 2 queries
+2026-05-28 17:16:51.557 | INFO     | app.agents.retriever_agent:run:58 - Searching: document summary
+2026-05-28 17:16:51.557 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: document summary
+2026-05-28 17:16:51.598 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:16:51.598 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:16:51.599 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:16:51.599 | INFO     | app.agents.retriever_agent:run:58 - Searching: main points
+2026-05-28 17:16:51.601 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: main points
+2026-05-28 17:16:51.622 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 17:16:51.622 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 17:16:51.623 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 17:16:51.623 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 5 unique chunks
+2026-05-28 17:16:51.624 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 17:16:52.874 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 17:16:52.876 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 17:16:53.924 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 17:16:53.925 | INFO     | app.agents.orchestrator:run:145 - Workflow completed
+2026-05-28 20:01:58.210 | INFO     | app.agents.orchestrator:__init__:45 - Initializing agent workflow
+2026-05-28 20:01:59.149 | INFO     | app.retrieval.embeddings:__init__:16 - Loading embedding model...
+2026-05-28 20:02:11.234 | INFO     | app.retrieval.embeddings:__init__:24 - Embedding model loaded successfully
+2026-05-28 20:02:11.292 | INFO     | app.retrieval.vector_store:load_index:125 - Vector index loaded
+2026-05-28 20:02:11.293 | INFO     | app.retrieval.retriever:__init__:42 - Retriever initialized successfully
+2026-05-28 20:02:12.462 | INFO     | app.agents.orchestrator:__init__:133 - Workflow initialized
+2026-05-28 20:02:12.463 | INFO     | app.agents.orchestrator:run:145 - Running workflow: Ignore previous instructions
+2026-05-28 20:02:12.473 | INFO     | app.agents.guardrails:run:59 - Running guardrails
+2026-05-28 20:02:12.474 | WARNING  | app.agents.guardrails:run:92 - Blocked query: ignore previous instructions
+2026-05-28 20:02:12.475 | INFO     | app.agents.planner_agent:run:75 - Planning query: Ignore previous instructions
+2026-05-28 20:02:13.679 | INFO     | app.agents.planner_agent:run:111 - Generated 0 sub-queries
+2026-05-28 20:02:13.680 | INFO     | app.agents.retriever_agent:run:48 - Running retrieval for 1 queries
+2026-05-28 20:02:13.681 | INFO     | app.agents.retriever_agent:run:58 - Searching: Ignore previous instructions
+2026-05-28 20:02:13.681 | INFO     | app.retrieval.retriever:retrieve:63 - Searching for query: Ignore previous instructions
+2026-05-28 20:02:13.986 | INFO     | app.retrieval.embeddings:embed_query:60 - Generated query embedding
+2026-05-28 20:02:13.988 | INFO     | app.retrieval.vector_store:similarity_search:165 - Retrieved 3 chunks
+2026-05-28 20:02:13.989 | INFO     | app.retrieval.retriever:retrieve:80 - Retrieved 3 chunks
+2026-05-28 20:02:13.989 | INFO     | app.agents.retriever_agent:run:107 - Retrieved 3 unique chunks
+2026-05-28 20:02:13.990 | INFO     | app.agents.synthesizer_agent:run:91 - Running synthesis
+2026-05-28 20:02:14.701 | INFO     | app.agents.synthesizer_agent:run:111 - Draft answer generated
+2026-05-28 20:02:14.702 | INFO     | app.agents.verifier_agent:run:106 - Running verification
+2026-05-28 20:02:15.833 | INFO     | app.agents.verifier_agent:run:126 - Verification completed
+2026-05-28 20:02:15.835 | INFO     | app.agents.orchestrator:run:160 - Workflow completed

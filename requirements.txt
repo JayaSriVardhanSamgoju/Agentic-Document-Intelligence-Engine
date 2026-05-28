@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-dotenv
+pydantic
+loguru
+pypdf
+python-docx
+langchain
+langchain-community
+tiktoken

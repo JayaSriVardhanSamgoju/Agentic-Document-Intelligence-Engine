@@ -1,0 +1,19 @@
+# Environment variables
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Vector DB
+data/
+backend/data/
+
+# Logs
+logs/
+backend/logs/
+
+# Virtual env
+.venv/
+venv/

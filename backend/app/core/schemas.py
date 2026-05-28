@@ -1,0 +1,54 @@
+from pydantic import BaseModel,Field
+from typing import List,Optional
+
+class QueryRequest(BaseModel):
+    """
+    Request schema for asking questions
+    about uploaded documents.
+    """
+    query: str = Field(...,description="User question to ask")
+    source_document: Optional[str] = Field(None,description="Optional source document analysis")
+
+
+class Citation(BaseModel):
+    """
+    Source citation schema
+    """
+
+    source: str
+    page_number: Optional[int] = None
+    chunk_text: str
+
+
+class QueryResponse(BaseModel):
+    """
+    Final validated response schema
+    """
+
+    answer: str
+
+    confidence_score: float = Field(
+        ...,
+        ge=0,
+        le=1,
+        description="Confidence score between 0 and 1"
+    )
+
+class UploadResponse(BaseModel):
+    """
+    Response schema after document upload
+    """
+
+    filename: str
+    status: str
+    chunks_created: int
+
+class HealthResponse(BaseModel):
+    """
+    Health check response schema
+    """
+
+    status:str
+    app_name:str
+    
+    
