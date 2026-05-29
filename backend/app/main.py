@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from app.core.config import settings
 from app.utils.logger import get_logger
 from app.api.routes import router
+from app.auth.auth import (
+    router as auth_router
+)
 
 
 logger = get_logger()
@@ -25,3 +28,7 @@ async def shutdown_event():
 
 
 app.include_router(router)
+
+app.include_router(
+    auth_router
+)

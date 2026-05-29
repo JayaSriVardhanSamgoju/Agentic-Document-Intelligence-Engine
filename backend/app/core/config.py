@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     # Retrieval Configuration
     TOP_K_RESULTS: int
 
+    SECRET_KEY: str
+
     class Config:
         env_file = BASE_DIR /".env"
         case_sensitive = True

@@ -1,6 +1,11 @@
+from ast import Dict
 from pydantic import BaseModel,Field
-from typing import List,Optional
-
+from typing import (
+    List,
+    Dict,
+    Any,
+    Optional
+)
 class QueryRequest(BaseModel):
     """
     Request schema for asking questions
@@ -46,6 +51,8 @@ class QueryResponse(BaseModel):
     citations: List[Citation]
     reasoning: str
     agent_trace: List[AgentTrace]
+    evaluation: Dict[str, Any]
+
 
 class UploadResponse(BaseModel):
     """

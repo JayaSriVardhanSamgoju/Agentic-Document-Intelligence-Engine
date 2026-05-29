@@ -81,7 +81,11 @@ class AgentOrchestrator:
             "query": query,
             "agent_trace": [],
             "is_safe": True,
-            "blocked_reason": None
+            "blocked_reason": None,
+            "draft_answer": "",
+            "verification_notes": "No verification performed.",
+            "confidence_score": 0.0,
+            "citations": []
         }
 
         logger.info("Starting Graph Execution...")

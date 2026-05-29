@@ -5,7 +5,8 @@ from fastapi import (
     APIRouter,
     UploadFile,
     File,
-    HTTPException
+    HTTPException,
+    Depends
 )
 
 from app.core.schemas import (
@@ -29,6 +30,9 @@ from app.retrieval.vector_store import (
 
 from app.services.query_service import (
     QueryService
+)
+from app.auth.dependencies import (
+    require_permission
 )
 
 from app.utils.logger import get_logger
@@ -75,9 +79,15 @@ async def health_check():
 
 @router.post(
     "/upload",
-    response_model=UploadResponse,
-    tags=["Document"]
+    dependencies=[
+        Depends(
+            require_permission(
+                "upload"
+            )
+        )
+    ]
 )
+
 async def upload_document(
     file: UploadFile = File(...)
 ):
@@ -148,8 +158,13 @@ async def upload_document(
 
 @router.post(
     "/query",
-    response_model=QueryResponse,
-    tags=["Query"]
+    dependencies=[
+        Depends(
+            require_permission(
+                "query"
+            )
+        )
+    ]
 )
 async def query_documents(
     request: QueryRequest
@@ -166,30 +181,13 @@ async def query_documents(
         )
 
         return QueryResponse(
-    answer=response["answer"],
-
-    confidence_score=(
-        response[
-            "confidence_score"
-        ]
-    ),
-
-    citations=(
-        response[
-            "citations"
-        ]
-    ),
-
-    reasoning=(
-        response[
-            "verification_notes"
-        ]
-    ),
-
-    agent_trace=response[
-        "agent_trace"
-    ]
-)
+            answer=response.get("answer", "No answer generated."),
+            confidence_score=response.get("confidence_score", 0.0),
+            citations=response.get("citations", []),
+            reasoning=response.get("reasoning", "No reasoning provided."),
+            agent_trace=response.get("agent_trace", []),
+            evaluation=response.get("evaluation", {})
+        )
 
     except Exception as error:
 
