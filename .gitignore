@@ -1,19 +1,175 @@
-# Environment variables
-.env
-backend/.env
+# ==============================================================================
+# PRO-GRADE GITIGNORE FOR AGENTIC DOCUMENT INTELLIGENCE ENGINE
+# Supports Next.js (Frontend) + FastAPI/LangChain (Backend)
+# ==============================================================================
 
-# Python
+# ------------------------------------------------------------------------------
+# System & OS Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ------------------------------------------------------------------------------
+# Next.js / React Frontend
+# ------------------------------------------------------------------------------
+# Dependency directory
+frontend/node_modules/
+node_modules/
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+
+# Production/Distribution builds
+frontend/build/
+frontend/dist/
+
+# Next.js telemetry/cache
+frontend/.next/cache/
+
+# Cypress/Testing
+frontend/cypress/screenshots/
+frontend/cypress/videos/
+
+# ------------------------------------------------------------------------------
+# Python Backend / LangChain
+# ------------------------------------------------------------------------------
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
 
-# Vector DB
-data/
-backend/data/
+# C extensions
+*.so
 
-# Logs
-logs/
-backend/logs/
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Virtual env
+# PyInstaller
+#  Usually these files are written by a python script when packaging
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nosenv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+vulture_whitelist.py
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Poetry / Pipenv virtualenvs
 .venv/
 venv/
+ENV/
+env/
+backend/.venv/
+backend/venv/
+backend/ENV/
+backend/env/
+ENV/lib/
+ENV/bin/
+
+# Jupyter Notebooks checkpoint
+.ipynb_checkpoints
+
+# ------------------------------------------------------------------------------
+# Local Databases & Vector Indices (FAISS)
+# ------------------------------------------------------------------------------
+# Local data uploads and FAISS DB stores
+data/
+backend/data/
+*.faiss
+*.pkl
+*.db
+*.sqlite
+
+# Large evaluation or model files
+models/
+backend/models/
+*.bin
+*.pt
+*.onnx
+
+# ------------------------------------------------------------------------------
+# Logs & Telemetry
+# ------------------------------------------------------------------------------
+logs/
+*.log
+backend/logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# Environment Variables & Secrets
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Allow committing example environment templates
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# ------------------------------------------------------------------------------
+# Editor & IDE Configs (VS Code, JetBrains, WebStorm, etc.)
+# ------------------------------------------------------------------------------
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

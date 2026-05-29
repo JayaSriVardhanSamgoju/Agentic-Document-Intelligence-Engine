@@ -5,6 +5,9 @@ from app.api.routes import router
 from app.auth.auth import (
     router as auth_router
 )
+from fastapi.middleware.cors import (
+    CORSMiddleware
+)
 
 
 logger = get_logger()
@@ -31,4 +34,22 @@ app.include_router(router)
 
 app.include_router(
     auth_router
+)
+app.add_middleware(
+    CORSMiddleware,
+
+    allow_origins=[
+        "*"
+    ],
+
+    allow_credentials=
+    True,
+
+    allow_methods=[
+        "*"
+    ],
+
+    allow_headers=[
+        "*"
+    ]
 )

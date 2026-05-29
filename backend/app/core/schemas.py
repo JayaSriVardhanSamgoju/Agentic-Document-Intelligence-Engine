@@ -7,13 +7,10 @@ from typing import (
     Optional
 )
 class QueryRequest(BaseModel):
-    """
-    Request schema for asking questions
-    about uploaded documents.
-    """
-    query: str = Field(...,description="User question to ask")
-    source_document: Optional[str] = Field(None,description="Optional source document analysis")
 
+    query: str
+
+    session_id:str = "default"
 
 class Citation(BaseModel):
     """
@@ -51,8 +48,8 @@ class QueryResponse(BaseModel):
     citations: List[Citation]
     reasoning: str
     agent_trace: List[AgentTrace]
-    evaluation: Dict[str, Any]
-
+    evaluation: Dict[str, Any] = {}
+    observability: Dict[str, Any] = {}
 
 class UploadResponse(BaseModel):
     """
