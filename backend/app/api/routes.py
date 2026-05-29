@@ -184,7 +184,11 @@ async def query_documents(
         response[
             "verification_notes"
         ]
-    )
+    ),
+
+    agent_trace=response[
+        "agent_trace"
+    ]
 )
 
     except Exception as error:

@@ -19,6 +19,10 @@ from app.utils.logger import (
     get_logger
 )
 
+from app.utils.tracing import (
+    add_trace
+)
+
 
 logger = get_logger()
 
@@ -158,9 +162,16 @@ brief explanation
 
         return {
     **state,
+
     "verification_notes":
     verification,
 
     "confidence_score":
-    confidence_score
+    confidence_score,
+
+    "agent_trace":
+    add_trace(
+        state,
+        "verifier"
+    )
 }

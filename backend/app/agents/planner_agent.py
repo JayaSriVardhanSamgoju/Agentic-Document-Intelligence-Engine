@@ -14,7 +14,9 @@ from app.graph.state import (
 from app.utils.logger import (
     get_logger
 )
-
+from app.utils.tracing import (
+    add_trace
+)
 
 logger = get_logger()
 
@@ -116,6 +118,13 @@ Example:
 
         return {
     **state,
+
     "sub_queries":
-    sub_queries
+    sub_queries,
+
+    "agent_trace":
+    add_trace(
+        state,
+        "planner"
+    )
 }

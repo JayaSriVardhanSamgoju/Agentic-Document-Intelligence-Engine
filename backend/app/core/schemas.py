@@ -16,8 +16,17 @@ class Citation(BaseModel):
     """
 
     source: str
-    page_number: Optional[int] = None
-    chunk_text: str
+    chunk_id: Optional[int] = None
+
+
+class AgentTrace(BaseModel):
+    """
+    Agent execution trace schema
+    """
+    
+    agent: str
+    status: str
+    timestamp: str
 
 
 class QueryResponse(BaseModel):
@@ -33,6 +42,10 @@ class QueryResponse(BaseModel):
         le=1,
         description="Confidence score between 0 and 1"
     )
+
+    citations: List[Citation]
+    reasoning: str
+    agent_trace: List[AgentTrace]
 
 class UploadResponse(BaseModel):
     """

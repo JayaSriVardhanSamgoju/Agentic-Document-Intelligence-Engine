@@ -9,6 +9,9 @@ from app.retrieval.retriever import (
 from app.utils.logger import (
     get_logger
 )
+from app.utils.tracing import (
+    add_trace
+)
 
 
 logger = get_logger()
@@ -106,22 +109,18 @@ class RetrieverAgent:
         citations = []
 
         for doc in unique_docs:
-
-            citations.append(
-                {
-                    "source":
-                    doc.metadata.get(
-                        "source",
-                "unknown"
-            ),
-
-            "chunk_id":
-            doc.metadata.get(
-                "chunk_id",
-                -1
-            )
-        }
-    ) 
+            source = doc.metadata.get("source", "unknown")
+            chunk_id = doc.metadata.get("chunk_id", -1)
+            
+            # Extract just the filename from the path if needed
+            if "/" in source or "\\" in source:
+                import os
+                source = os.path.basename(source)
+                
+            citations.append({
+                "source": source,
+                "chunk_id": int(chunk_id) if str(chunk_id).isdigit() else -1
+            })
 
         logger.info(
             f"Retrieved "
@@ -139,5 +138,11 @@ class RetrieverAgent:
     context,
 
     "citations":
-    citations
+    citations,
+
+    "agent_trace":
+    add_trace(
+        state,
+        "retriever"
+    )
 }

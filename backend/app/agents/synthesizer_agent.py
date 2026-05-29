@@ -1,23 +1,9 @@
-from langchain_groq import (
-    ChatGroq
-)
-
-from langchain_core.prompts import (
-    ChatPromptTemplate
-)
-
-from app.core.config import (
-    settings
-)
-
-from app.graph.state import (
-    AgentState
-)
-
-from app.utils.logger import (
-    get_logger
-)
-
+from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
+from app.core.config import settings
+from app.graph.state import AgentState
+from app.utils.logger import get_logger
+from app.utils.tracing import add_trace
 
 logger = get_logger()
 
@@ -32,32 +18,24 @@ class SynthesizerAgent:
 
         self.llm = ChatGroq(
             groq_api_key=settings.GROQ_API_KEY,
-            model_name=settings.MODEL_NAME
+            model_name=settings.MODEL_NAME,
+            temperature=0
         )
 
         self.prompt = (
             ChatPromptTemplate.from_template(
                 """
-You are an expert
-document intelligence
-assistant.
+You are an expert document assistant.
 
-Your task:
-Generate a high-quality
-answer ONLY using the
+Answer ONLY using the
 provided context.
 
-Rules:
-- Do NOT hallucinate
-- Do NOT invent facts
-- Stay grounded
-- Be concise but complete
-- If answer is missing,
-say:
+If the answer cannot be found
+in the context, say:
 
-"I could not find
-relevant information
-in the uploaded documents."
+"I could not find relevant
+information in the uploaded
+documents."
 
 Context:
 {context}
@@ -78,42 +56,40 @@ Answer:
         Generate draft answer.
         """
 
-        query = state.get(
-            "query",
-            ""
-        )
+        query = state.get("query", "")
+        context = state.get("context", "")
 
-        context = state.get(
-            "context",
-            ""
-        )
+        logger.info("Running synthesis")
 
-        logger.info(
-            "Running synthesis"
-        )
-
-        chain = (
-            self.prompt
-            | self.llm
-        )
-
-        response = chain.invoke(
-            {
-                "context": context,
-                "query": query
+        # Safety check
+        if not context:
+            logger.warning("No context found")
+            return {
+                "draft_answer": "No relevant document context found.",
+                "agent_trace": add_trace(state, "synthesizer")
             }
-        )
 
-        draft_answer = (
-            response.content
-        )
+        try:
+            chain = self.prompt | self.llm
+            response = chain.invoke(
+                {
+                    "context": context,
+                    "query": query
+                }
+            )
 
-        logger.info(
-            "Draft answer generated"
-        )
+            draft_answer = response.content
 
-        return {
-    **state,
-    "draft_answer":
-    draft_answer
-}
+            logger.info("Draft answer generated")
+
+            return {
+                "draft_answer": draft_answer,
+                "agent_trace": add_trace(state, "synthesizer")
+            }
+
+        except Exception as error:
+            logger.error(f"Synthesis failed: {error}")
+            return {
+                "draft_answer": "Answer generation failed.",
+                "agent_trace": add_trace(state, "synthesizer", status="failed")
+            }
