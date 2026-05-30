@@ -1,17 +1,10 @@
 "use client";
 
 import type { Message } from "@/types";
-import { cn } from "@/lib/utils";
-import { User, Bot, ChevronDown, ChevronUp } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { AgentTracePanel } from "./AgentTracePanel";
-import { CitationViewer } from "./CitationViewer";
-import { ConfidenceBadge } from "./ConfidenceBadge";
-import { EvaluationPanel } from "./EvaluationPanel";
+import { Sparkles, User } from "lucide-react";
+import { ResponseCard } from "./ResponseCard";
 import { StreamingText } from "./StreamingText";
+import { cn } from "@/lib/utils";
 
 interface MessageBubbleProps {
   message: Message;
@@ -19,122 +12,54 @@ interface MessageBubbleProps {
 
 export function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
-  const [isExpanded, setIsExpanded] = useState(false);
 
-  return (
-    <div
-      className={cn(
-        "flex w-full gap-4 max-w-4xl mx-auto",
-        isUser ? "flex-row-reverse" : "flex-row"
-      )}
-    >
-      {/* Avatar */}
-      <div
-        className={cn(
-          "w-8 h-8 shrink-0 rounded-full flex items-center justify-center mt-1 shadow-sm ring-1 ring-black/5",
-          isUser ? "bg-white text-blue-600" : "bg-primary text-white"
-        )}
-      >
-        {isUser ? <User size={16} strokeWidth={2.5} /> : <Bot size={16} strokeWidth={2.5} />}
-      </div>
-
-      {/* Bubble */}
-      <div
-        className={cn(
-          "px-5 py-4 rounded-2xl max-w-[85%] shadow-sm",
-          isUser
-            ? "bubble-user text-white rounded-tr-sm"
-            : "bubble-ai text-foreground rounded-tl-sm ring-1 ring-white/5"
-        )}
-      >
-        {/* Content */}
-        <div className="text-[15px] leading-relaxed">
-          {message.isStreaming ? (
-            <StreamingText content={message.content} isStreaming={true} />
-          ) : isUser ? (
-            <p className="whitespace-pre-wrap">{message.content}</p>
-          ) : (
-            <div className="prose prose-invert prose-chat max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
-            </div>
-          )}
+  if (isUser) {
+    return (
+      <div className="flex gap-3 justify-end w-full max-w-3xl mx-auto">
+        <div className="max-w-[80%]">
+          <div className="px-4 py-3 rounded-2xl rounded-tr-md bubble-user text-sm text-white leading-relaxed">
+            {message.content}
+          </div>
+          <p className="text-[10px] text-text-muted mt-1 text-right font-mono">
+            {new Date(message.timestamp).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
         </div>
+        <div className="w-8 h-8 shrink-0 rounded-full bg-accent/20 flex items-center justify-center mt-1">
+          <User size={14} className="text-accent" />
+        </div>
+      </div>
+    );
+  }
 
-        {/* AI Metadata (Citations, Confidence, Trace) */}
-        {!isUser && !message.isStreaming && (
-          <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
-            {/* Header: Confidence & Toggle */}
-            <div className="flex items-center justify-between">
-              {message.confidence !== undefined && (
-                <ConfidenceBadge score={message.confidence} />
-              )}
-              
-              <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors bg-white/5 hover:bg-white/10 px-2 py-1 rounded-md"
-              >
-                {isExpanded ? "Hide Details" : "View Details"}
-                {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-              </button>
+  // AI message
+  return (
+    <div className="flex gap-3 w-full max-w-3xl mx-auto">
+      <div className="w-8 h-8 shrink-0 rounded-full bg-accent/10 ring-1 ring-accent/20 flex items-center justify-center mt-1">
+        <Sparkles size={14} className="text-accent" />
+      </div>
+      <div className="flex-1 min-w-0">
+        {message.isStreaming ? (
+          <div className="px-4 py-3 rounded-2xl rounded-tl-md bubble-ai">
+            <StreamingText text={message.content} />
+          </div>
+        ) : message.response ? (
+          <ResponseCard response={message.response} />
+        ) : (
+          <div className="px-4 py-3 rounded-2xl rounded-tl-md bubble-ai">
+            <div className="prose-chat text-text-primary text-sm">
+              {message.content}
             </div>
-
-            {/* Citations */}
-            {message.citations && message.citations.length > 0 && (
-              <div>
-                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2 block">
-                  Sources
-                </span>
-                <CitationViewer citations={message.citations} />
-              </div>
-            )}
-
-            {/* Expanded Details */}
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="pt-4 space-y-5">
-                    {/* Agent Trace */}
-                    {message.agentTrace && message.agentTrace.length > 0 && (
-                      <div className="bg-black/20 rounded-xl p-4 ring-1 ring-white/5">
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block">
-                          Agent Pipeline
-                        </span>
-                        <AgentTracePanel trace={message.agentTrace} />
-                      </div>
-                    )}
-
-                    {/* Evaluation */}
-                    {message.evaluation && (
-                      <div className="bg-black/20 rounded-xl p-4 ring-1 ring-white/5">
-                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block">
-                          Quality Evaluation
-                        </span>
-                        <EvaluationPanel evaluation={message.evaluation} />
-                      </div>
-                    )}
-
-                    {/* Reasoning */}
-                    {message.reasoning && (
-                      <div className="bg-black/20 rounded-xl p-4 ring-1 ring-white/5">
-                         <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-3 block">
-                          Internal Reasoning
-                        </span>
-                        <p className="text-xs text-muted-foreground leading-relaxed font-mono">
-                          {message.reasoning}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
         )}
+        <p className="text-[10px] text-text-muted mt-1 font-mono">
+          {new Date(message.timestamp).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </p>
       </div>
     </div>
   );

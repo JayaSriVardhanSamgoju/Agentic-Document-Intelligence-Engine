@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
+from typing import Optional
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -29,10 +30,15 @@ class Settings(BaseSettings):
     TOP_K_RESULTS: int
 
     SECRET_KEY: str
+    
+    # Search API
+    TAVILY_API_KEY: Optional[str] = None
+    TAVILY_SEARCH_API: Optional[str] = None
 
     class Config:
         env_file = BASE_DIR /".env"
         case_sensitive = True
+        extra = "ignore"
 
 @lru_cache
 def get_settings() -> Settings:

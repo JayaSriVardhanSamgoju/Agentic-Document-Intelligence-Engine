@@ -1,24 +1,23 @@
 "use client";
 
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { DropZone } from "@/components/upload/DropZone";
-import { Upload } from "lucide-react";
 
 export default function UploadPage() {
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center ring-1 ring-primary/20">
-            <Upload size={20} className="text-primary" />
-          </div>
-          Upload Documents
-        </h1>
-        <p className="text-muted-foreground mt-2 text-sm">
-          Upload PDF, DOCX, or TXT files. They will be automatically chunked, embedded, and indexed for intelligent retrieval.
-        </p>
-      </div>
+    <ProtectedRoute requiredPermission="upload">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">
+            Document Repository
+          </h1>
+          <p className="text-text-secondary text-sm mt-1">
+            Upload enterprise documents to index them into the vector database.
+          </p>
+        </div>
 
-      <DropZone />
-    </div>
+        <DropZone />
+      </div>
+    </ProtectedRoute>
   );
 }

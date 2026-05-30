@@ -1,44 +1,29 @@
 import { cn } from "@/lib/utils";
-import { type ReactNode } from "react";
-
-type BadgeVariant = "default" | "success" | "warning" | "danger" | "info" | "outline";
 
 interface BadgeProps {
-  variant?: BadgeVariant;
-  children: ReactNode;
+  children: React.ReactNode;
+  variant?: "default" | "info" | "success" | "warning" | "danger" | "violet";
   className?: string;
-  dot?: boolean;
 }
 
-const variants: Record<BadgeVariant, string> = {
-  default: "bg-white/10 text-muted-foreground",
-  success: "bg-success/15 text-success border-success/20",
-  warning: "bg-warning/15 text-warning border-warning/20",
-  danger: "bg-destructive/15 text-destructive border-destructive/20",
-  info: "bg-primary/15 text-blue-400 border-primary/20",
-  outline: "bg-transparent border-border text-muted-foreground",
+const variantStyles = {
+  default: "bg-raised text-text-secondary border-subtle",
+  info: "bg-accent/10 text-accent border-accent/20",
+  success: "bg-success/10 text-success border-success/20",
+  warning: "bg-warning/10 text-warning border-warning/20",
+  danger: "bg-danger/10 text-danger border-danger/20",
+  violet: "bg-violet/10 text-violet-glow border-violet/20",
 };
 
-export function Badge({ variant = "default", children, className, dot }: BadgeProps) {
+export function Badge({ children, variant = "default", className }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-colors",
-        variants[variant],
+        "inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border",
+        variantStyles[variant],
         className
       )}
     >
-      {dot && (
-        <span
-          className={cn("w-1.5 h-1.5 rounded-full", {
-            "bg-muted-foreground": variant === "default",
-            "bg-success": variant === "success",
-            "bg-warning": variant === "warning",
-            "bg-destructive": variant === "danger",
-            "bg-primary": variant === "info",
-          })}
-        />
-      )}
       {children}
     </span>
   );

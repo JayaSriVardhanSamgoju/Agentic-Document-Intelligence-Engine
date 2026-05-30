@@ -9,9 +9,12 @@ import {
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { login as loginApi } from "@/services/api";
-import type { User, UserRole, Permission, ROLE_PERMISSIONS } from "@/types";
+import { login as loginApi, ApiError } from "@/services/api";
+import type { User, UserRole, Permission } from "@/types";
+import { decodeJWT } from "@/lib/utils";
+import { useChatStore } from "@/store/chatStore";
 
+// --- Types ---
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -21,22 +24,15 @@ interface AuthContextType {
   hasPermission: (permission: Permission) => boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
+// --- Permissions Map ---
 const ROLE_PERMS: Record<UserRole, Permission[]> = {
-  admin: ["upload", "query", "delete", "manage_users"],
+  admin: ["upload", "query", "delete", "manage_users", "view_citations"],
   researcher: ["query", "view_citations"],
   viewer: ["query"],
 };
 
-function decodeJwtExpiry(token: string): number | null {
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.exp ? payload.exp * 1000 : null;
-  } catch {
-    return null;
-  }
-}
+// --- Context ---
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -55,16 +51,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const stored = localStorage.getItem("auth_user");
       if (stored) {
         const parsed: User = JSON.parse(stored);
-        const expiry = decodeJwtExpiry(parsed.token);
-        if (expiry && Date.now() > expiry) {
+        const decoded = decodeJWT(parsed.token);
+
+        if (decoded?.exp && Date.now() > decoded.exp * 1000) {
           // Token expired
           localStorage.removeItem("auth_user");
         } else {
           setUser(parsed);
+
           // Auto-logout timer
-          if (expiry) {
-            const timeout = expiry - Date.now();
-            const timer = setTimeout(logout, timeout);
+          if (decoded?.exp) {
+            const msUntilExpiry = decoded.exp * 1000 - Date.now();
+            const timer = setTimeout(logout, msUntilExpiry);
             return () => clearTimeout(timer);
           }
         }
@@ -78,19 +76,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (username: string, password: string) => {
     const response = await loginApi(username, password);
+
+    // Decode role from JWT if not in response
+    const decoded = decodeJWT(response.access_token);
+    const role: UserRole = response.role || decoded?.role || "viewer";
+
     const newUser: User = {
       username,
-      role: response.role,
+      role,
       token: response.access_token,
     };
+
     localStorage.setItem("auth_user", JSON.stringify(newUser));
     setUser(newUser);
 
+    // Clear active session to enforce a new chat on login
+    useChatStore.getState().setActiveSession("");
+
     // Set auto-logout timer
-    const expiry = decodeJwtExpiry(response.access_token);
-    if (expiry) {
-      const timeout = expiry - Date.now();
-      setTimeout(logout, timeout);
+    if (decoded?.exp) {
+      const msUntilExpiry = decoded.exp * 1000 - Date.now();
+      setTimeout(logout, msUntilExpiry);
     }
   };
 

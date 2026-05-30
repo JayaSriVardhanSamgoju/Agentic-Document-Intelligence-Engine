@@ -1,194 +1,233 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { Badge } from "@/components/ui/Badge";
-import { useAuth } from "@/contexts/AuthContext";
 import { healthCheck } from "@/services/api";
-import type { HealthResponse } from "@/types";
 import {
-  Shield,
   Users,
+  Shield,
   Activity,
+  Terminal,
   CheckCircle2,
-  AlertCircle,
-  Loader2,
+  XCircle,
+  Clock,
+  MoreVertical,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const mockUsers = [
-  { username: "admin", role: "admin" },
-  { username: "researcher", role: "researcher" },
-  { username: "viewer", role: "viewer" },
+// Mock Data
+const users = [
+  { id: "1", username: "admin", role: "admin", status: "active", lastLogin: "2 mins ago" },
+  { id: "2", username: "researcher", role: "researcher", status: "active", lastLogin: "1 hr ago" },
+  { id: "3", username: "viewer", role: "viewer", status: "active", lastLogin: "5 hrs ago" },
+  { id: "4", username: "jdoe", role: "researcher", status: "inactive", lastLogin: "2 days ago" },
 ];
 
-const roleBadge = {
-  admin: "danger" as const,
-  researcher: "info" as const,
-  viewer: "default" as const,
-};
+const apiLogs = [
+  { id: "1", time: "10:42:01", method: "POST", path: "/query", status: 200, ms: 312, user: "researcher" },
+  { id: "2", time: "10:41:15", method: "GET", path: "/health", status: 200, ms: 12, user: "admin" },
+  { id: "3", time: "10:39:44", method: "POST", path: "/upload", status: 200, ms: 1240, user: "admin" },
+  { id: "4", time: "10:35:22", method: "POST", path: "/query", status: 403, ms: 45, user: "viewer" },
+  { id: "5", time: "10:30:10", method: "POST", path: "/query", status: 200, ms: 890, user: "admin" },
+];
 
 export default function AdminPage() {
-  const { user } = useAuth();
-  const [health, setHealth] = useState<HealthResponse | null>(null);
-  const [healthLoading, setHealthLoading] = useState(true);
-  const [healthError, setHealthError] = useState(false);
+  const [health, setHealth] = useState<"checking" | "online" | "offline">("checking");
+  const [latency, setLatency] = useState<number | null>(null);
 
   useEffect(() => {
-    healthCheck()
-      .then((res) => {
-        setHealth(res);
-        setHealthError(false);
-      })
-      .catch(() => setHealthError(true))
-      .finally(() => setHealthLoading(false));
+    const check = async () => {
+      try {
+        const start = Date.now();
+        await healthCheck();
+        setLatency(Date.now() - start);
+        setHealth("online");
+      } catch {
+        setHealth("offline");
+      }
+    };
+    check();
+    const interval = setInterval(check, 30000); // Poll every 30s
+    return () => clearInterval(interval);
   }, []);
 
-  if (user?.role !== "admin") {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="text-center space-y-3">
-          <Shield size={48} className="mx-auto text-destructive/50" />
-          <h2 className="text-xl font-bold text-foreground">Access Denied</h2>
-          <p className="text-sm text-muted-foreground">
-            You need admin privileges to access this page.
+  return (
+    <ProtectedRoute requiredPermission="manage_users">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">
+            Admin Console
+          </h1>
+          <p className="text-text-secondary text-sm mt-1">
+            Manage users, permissions, and monitor system health.
           </p>
         </div>
-      </div>
-    );
-  }
 
-  return (
-    <div className="max-w-5xl mx-auto space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-destructive/10 flex items-center justify-center ring-1 ring-destructive/20">
-            <Shield size={20} className="text-destructive" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column: Users & Permissions */}
+          <div className="col-span-1 lg:col-span-2 space-y-6">
+            {/* User Management */}
+            <div className="glass-card flex flex-col h-fit">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Users size={16} className="text-accent" />
+                  <h3 className="text-sm font-bold text-text-primary">User Management</h3>
+                </div>
+                <button className="px-3 py-1.5 rounded-lg bg-accent/10 text-accent text-xs font-semibold hover:bg-accent/20 transition-colors">
+                  + Add User
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm whitespace-nowrap">
+                  <thead>
+                    <tr className="border-b border-subtle text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                      <th className="pb-3 px-2">User</th>
+                      <th className="pb-3 px-2">Role</th>
+                      <th className="pb-3 px-2">Status</th>
+                      <th className="pb-3 px-2">Last Login</th>
+                      <th className="pb-3 px-2 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-subtle">
+                    {users.map((u) => (
+                      <tr key={u.id} className="hover:bg-raised/20 transition-colors">
+                        <td className="py-3 px-2 font-medium text-text-primary">{u.username}</td>
+                        <td className="py-3 px-2">
+                          <Badge variant={u.role === "admin" ? "danger" : u.role === "researcher" ? "warning" : "success"}>
+                            {u.role}
+                          </Badge>
+                        </td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-1.5">
+                            <div className={cn("w-1.5 h-1.5 rounded-full", u.status === "active" ? "bg-success" : "bg-text-muted")} />
+                            <span className="text-text-secondary text-xs capitalize">{u.status}</span>
+                          </div>
+                        </td>
+                        <td className="py-3 px-2 text-text-muted text-xs">{u.lastLogin}</td>
+                        <td className="py-3 px-2 text-right">
+                          <button className="p-1 rounded hover:bg-raised text-text-muted transition-colors">
+                            <MoreVertical size={14} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Permissions Matrix */}
+            <div className="glass-card">
+              <div className="flex items-center gap-2 mb-4">
+                <Shield size={16} className="text-violet-glow" />
+                <h3 className="text-sm font-bold text-text-primary">Permissions Matrix</h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-center text-sm whitespace-nowrap">
+                  <thead>
+                    <tr className="border-b border-subtle text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                      <th className="pb-3 text-left">Role</th>
+                      <th className="pb-3 px-2">Query</th>
+                      <th className="pb-3 px-2">Upload</th>
+                      <th className="pb-3 px-2">Delete</th>
+                      <th className="pb-3 px-2">Manage Users</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-subtle">
+                    {[
+                      { role: "admin", query: true, upload: true, del: true, users: true },
+                      { role: "researcher", query: true, upload: false, del: false, users: false },
+                      { role: "viewer", query: true, upload: false, del: false, users: false },
+                    ].map((r) => (
+                      <tr key={r.role} className="hover:bg-raised/20 transition-colors">
+                        <td className="py-3 text-left font-medium capitalize text-text-secondary">{r.role}</td>
+                        <td className="py-3"><CheckCircle2 size={14} className="mx-auto text-success" /></td>
+                        <td className="py-3">{r.upload ? <CheckCircle2 size={14} className="mx-auto text-success" /> : <XCircle size={14} className="mx-auto text-danger/50" />}</td>
+                        <td className="py-3">{r.del ? <CheckCircle2 size={14} className="mx-auto text-success" /> : <XCircle size={14} className="mx-auto text-danger/50" />}</td>
+                        <td className="py-3">{r.users ? <CheckCircle2 size={14} className="mx-auto text-success" /> : <XCircle size={14} className="mx-auto text-danger/50" />}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          Admin Panel
-        </h1>
-        <p className="text-muted-foreground mt-2 text-sm">
-          System administration, user management, and health monitoring.
-        </p>
-      </div>
 
-      {/* System Health */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Activity size={16} className="text-green-400" />
-            System Health
-          </CardTitle>
-          <CardDescription>Backend API status</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {healthLoading ? (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Loader2 size={16} className="animate-spin" />
-              Checking backend...
-            </div>
-          ) : healthError ? (
-            <div className="flex items-center gap-2 text-sm text-destructive">
-              <AlertCircle size={16} />
-              Backend unreachable
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-foreground">API Status</span>
-                <Badge variant="success" dot>
-                  <CheckCircle2 size={12} className="mr-1" />
-                  {health?.status}
-                </Badge>
+          {/* Right Column: Health & Logs */}
+          <div className="col-span-1 space-y-6">
+            {/* System Health */}
+            <div className="glass-card">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Activity size={16} className="text-success" />
+                  <h3 className="text-sm font-bold text-text-primary">System Health</h3>
+                </div>
+                {health === "checking" && <div className="w-3 h-3 border-2 border-text-muted border-t-text-primary rounded-full animate-spin" />}
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-foreground">Application</span>
-                <span className="text-sm text-muted-foreground">{health?.app_name}</span>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* User Management */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users size={16} className="text-primary" />
-            User Management
-          </CardTitle>
-          <CardDescription>Registered users and their roles</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {mockUsers.map((u) => (
-              <div
-                key={u.username}
-                className="flex items-center justify-between py-3 px-4 rounded-xl bg-white/[0.02] border border-border/30"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary ring-1 ring-primary/20">
-                    {u.username.charAt(0).toUpperCase()}
-                  </div>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between p-3 rounded-lg bg-raised/30 border border-subtle">
                   <div>
-                    <p className="text-sm font-medium text-foreground">{u.username}</p>
-                    <p className="text-xs text-muted-foreground">Active</p>
+                    <p className="text-xs font-semibold text-text-primary">FastAPI Backend</p>
+                    <p className="text-[10px] text-text-muted mt-0.5">Core API server</p>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <Badge variant={health === "online" ? "success" : health === "offline" ? "danger" : "default"}>
+                      {health.toUpperCase()}
+                    </Badge>
+                    {latency !== null && health === "online" && (
+                      <span className="text-[10px] font-mono text-text-muted mt-1">{latency}ms ping</span>
+                    )}
                   </div>
                 </div>
-                <Badge variant={roleBadge[u.role as keyof typeof roleBadge]} dot>
-                  {u.role.charAt(0).toUpperCase() + u.role.slice(1)}
-                </Badge>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-raised/30 border border-subtle">
+                  <div>
+                    <p className="text-xs font-semibold text-text-primary">FAISS Index</p>
+                    <p className="text-[10px] text-text-muted mt-0.5">Vector database</p>
+                  </div>
+                  <Badge variant="success">READY</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 rounded-lg bg-raised/30 border border-subtle">
+                  <div>
+                    <p className="text-xs font-semibold text-text-primary">Groq LLM</p>
+                    <p className="text-[10px] text-text-muted mt-0.5">llama-3.3-70b-versatile</p>
+                  </div>
+                  <Badge variant="success">CONNECTED</Badge>
+                </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </div>
 
-      {/* Permissions Matrix */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield size={16} className="text-accent" />
-            RBAC Permissions Matrix
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/50">
-                  <th className="text-left py-3 px-4 text-muted-foreground font-medium">Permission</th>
-                  <th className="text-center py-3 px-4 text-muted-foreground font-medium">Admin</th>
-                  <th className="text-center py-3 px-4 text-muted-foreground font-medium">Researcher</th>
-                  <th className="text-center py-3 px-4 text-muted-foreground font-medium">Viewer</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { perm: "Query Documents", admin: true, researcher: true, viewer: true },
-                  { perm: "Upload Documents", admin: true, researcher: false, viewer: false },
-                  { perm: "Delete Documents", admin: true, researcher: false, viewer: false },
-                  { perm: "View Citations", admin: true, researcher: true, viewer: false },
-                  { perm: "Manage Users", admin: true, researcher: false, viewer: false },
-                ].map((row) => (
-                  <tr key={row.perm} className="border-b border-border/20">
-                    <td className="py-3 px-4 text-foreground">{row.perm}</td>
-                    {[row.admin, row.researcher, row.viewer].map((has, i) => (
-                      <td key={i} className="text-center py-3 px-4">
-                        {has ? (
-                          <CheckCircle2 size={16} className="text-success mx-auto" />
-                        ) : (
-                          <span className="text-muted-foreground/30">—</span>
-                        )}
-                      </td>
-                    ))}
-                  </tr>
+            {/* API Logs */}
+            <div className="glass-card flex flex-col h-[400px]">
+              <div className="flex items-center gap-2 mb-4">
+                <Terminal size={16} className="text-accent" />
+                <h3 className="text-sm font-bold text-text-primary">API Traffic</h3>
+              </div>
+              <div className="flex-1 overflow-auto bg-void rounded-lg p-3 font-mono text-[10px] space-y-2 border border-subtle">
+                {apiLogs.map((log) => (
+                  <div key={log.id} className="flex items-start gap-3 border-b border-subtle/50 pb-2 last:border-0">
+                    <span className="text-text-muted shrink-0 flex items-center gap-1">
+                      <Clock size={10} /> {log.time}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className={cn("font-bold", log.method === "GET" ? "text-success" : "text-warning")}>{log.method}</span>
+                        <span className="text-text-primary truncate">{log.path}</span>
+                        <span className={cn(log.status === 200 ? "text-success" : "text-danger")}>{log.status}</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-0.5 text-text-muted">
+                        <span>{log.ms}ms</span>
+                        <span>·</span>
+                        <span className="text-accent">{log.user}</span>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </ProtectedRoute>
   );
 }

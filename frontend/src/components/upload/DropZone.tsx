@@ -1,132 +1,94 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { uploadDocument } from "@/services/api";
-import type { UploadResponse } from "@/types";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
+import { useState, useCallback, useRef } from "react";
+import { uploadDocument, ApiError } from "@/services/api";
+import { Upload, FileText, CheckCircle2, XCircle, Loader2, File, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Upload,
-  FileText,
-  CheckCircle2,
-  AlertCircle,
-  X,
-  CloudUpload,
-  File,
-  Layers,
-} from "lucide-react";
 
-interface UploadEntry {
-  id: string;
+interface FileEntry {
   file: File;
-  status: "pending" | "uploading" | "success" | "error";
-  progress: number;
-  result?: UploadResponse;
+  status: "pending" | "uploading" | "indexed" | "error";
+  chunks?: number;
   error?: string;
 }
 
-const ALLOWED_TYPES = [
-  "application/pdf",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "text/plain",
-];
-const ALLOWED_EXTENSIONS = [".pdf", ".docx", ".txt"];
-
-function getFileIcon(name: string) {
-  const ext = name.split(".").pop()?.toLowerCase();
-  if (ext === "pdf") return <FileText size={20} className="text-red-400" />;
-  if (ext === "docx") return <File size={20} className="text-blue-400" />;
-  return <FileText size={20} className="text-gray-400" />;
-}
-
 export function DropZone() {
-  const { user } = useAuth();
-  const [uploads, setUploads] = useState<UploadEntry[]>([]);
-  const [isDragOver, setIsDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [files, setFiles] = useState<FileEntry[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const validateFile = (file: File): string | null => {
-    const ext = "." + file.name.split(".").pop()?.toLowerCase();
-    if (!ALLOWED_EXTENSIONS.includes(ext)) {
-      return `Unsupported file type: ${ext}. Allowed: ${ALLOWED_EXTENSIONS.join(", ")}`;
-    }
-    if (file.size > 50 * 1024 * 1024) {
-      return "File too large. Maximum size is 50MB.";
-    }
-    return null;
-  };
+  const ALLOWED = [".pdf", ".docx", ".txt"];
+  const MAX_SIZE = 50 * 1024 * 1024; // 50MB
 
-  const handleUpload = useCallback(
-    async (entry: UploadEntry) => {
-      if (!user) return;
+  const addFiles = useCallback((newFiles: FileList | File[]) => {
+    const entries: FileEntry[] = Array.from(newFiles)
+      .filter((f) => {
+        const ext = "." + f.name.split(".").pop()?.toLowerCase();
+        return ALLOWED.includes(ext);
+      })
+      .map((file) => ({ file, status: "pending" as const }));
+    setFiles((prev) => [...prev, ...entries]);
+  }, []);
 
-      setUploads((prev) =>
-        prev.map((u) =>
-          u.id === entry.id ? { ...u, status: "uploading", progress: 30 } : u
+  const handleUpload = async (index: number) => {
+    const entry = files[index];
+    if (!entry || entry.status !== "pending") return;
+
+    if (entry.file.size > MAX_SIZE) {
+      setFiles((prev) =>
+        prev.map((f, i) =>
+          i === index ? { ...f, status: "error", error: "File exceeds 50MB limit" } : f
         )
       );
+      return;
+    }
 
-      try {
-        // Simulate progress
-        setUploads((prev) =>
-          prev.map((u) => (u.id === entry.id ? { ...u, progress: 60 } : u))
-        );
+    setFiles((prev) =>
+      prev.map((f, i) => (i === index ? { ...f, status: "uploading" } : f))
+    );
 
-        const result = await uploadDocument(entry.file, user.token);
+    try {
+      const res = await uploadDocument(entry.file);
+      setFiles((prev) =>
+        prev.map((f, i) =>
+          i === index
+            ? { ...f, status: "indexed", chunks: res.chunks_created }
+            : f
+        )
+      );
+    } catch (err: any) {
+      setFiles((prev) =>
+        prev.map((f, i) =>
+          i === index
+            ? {
+                ...f,
+                status: "error",
+                error:
+                  err instanceof ApiError
+                    ? "Upload failed — check backend"
+                    : "Cannot connect to backend",
+              }
+            : f
+        )
+      );
+    }
+  };
 
-        setUploads((prev) =>
-          prev.map((u) =>
-            u.id === entry.id
-              ? { ...u, status: "success", progress: 100, result }
-              : u
-          )
-        );
-      } catch (err: any) {
-        setUploads((prev) =>
-          prev.map((u) =>
-            u.id === entry.id
-              ? { ...u, status: "error", progress: 0, error: err.message || "Upload failed" }
-              : u
-          )
-        );
-      }
-    },
-    [user]
-  );
+  const handleUploadAll = () => {
+    files.forEach((_, i) => {
+      if (files[i].status === "pending") handleUpload(i);
+    });
+  };
 
-  const addFiles = useCallback(
-    (files: FileList | File[]) => {
-      const newEntries: UploadEntry[] = [];
-
-      Array.from(files).forEach((file) => {
-        const validationError = validateFile(file);
-        const entry: UploadEntry = {
-          id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-          file,
-          status: validationError ? "error" : "pending",
-          progress: 0,
-          error: validationError || undefined,
-        };
-        newEntries.push(entry);
-      });
-
-      setUploads((prev) => [...prev, ...newEntries]);
-
-      // Auto-start valid uploads
-      newEntries
-        .filter((e) => e.status === "pending")
-        .forEach((e) => handleUpload(e));
-    },
-    [handleUpload]
-  );
+  const removeFile = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
-      setIsDragOver(false);
+      setIsDragging(false);
       if (e.dataTransfer.files.length > 0) {
         addFiles(e.dataTransfer.files);
       }
@@ -134,30 +96,43 @@ export function DropZone() {
     [addFiles]
   );
 
-  const removeEntry = (id: string) => {
-    setUploads((prev) => prev.filter((u) => u.id !== id));
+  const getIcon = (name: string) => {
+    const ext = name.split(".").pop()?.toLowerCase();
+    if (ext === "pdf") return <FileText size={16} className="text-danger" />;
+    if (ext === "docx") return <FileText size={16} className="text-accent" />;
+    return <File size={16} className="text-success" />;
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return `${bytes}B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
   };
 
   return (
     <div className="space-y-6">
       {/* Drop Zone */}
       <div
-        onDragOver={(e) => {
+        onDragEnter={(e) => {
           e.preventDefault();
-          setIsDragOver(true);
+          setIsDragging(true);
         }}
-        onDragLeave={() => setIsDragOver(false)}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          setIsDragging(false);
+        }}
+        onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
-        onClick={() => fileInputRef.current?.click()}
+        onClick={() => inputRef.current?.click()}
         className={cn(
-          "relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300",
-          isDragOver
-            ? "border-primary bg-primary/5 scale-[1.01]"
-            : "border-border/50 hover:border-primary/40 hover:bg-white/[0.02]"
+          "relative border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all duration-300",
+          isDragging
+            ? "border-accent bg-accent/5 scale-[1.01]"
+            : "border-subtle hover:border-default hover:bg-raised/20"
         )}
       >
         <input
-          ref={fileInputRef}
+          ref={inputRef}
           type="file"
           multiple
           accept=".pdf,.docx,.txt"
@@ -165,120 +140,118 @@ export function DropZone() {
           onChange={(e) => e.target.files && addFiles(e.target.files)}
         />
 
-        <div className="flex flex-col items-center gap-4">
-          <div
+        <div
+          className={cn(
+            "w-16 h-16 rounded-2xl flex items-center justify-center transition-colors",
+            isDragging ? "bg-accent/10" : "bg-raised"
+          )}
+        >
+          <Upload
+            size={28}
             className={cn(
-              "w-16 h-16 rounded-2xl flex items-center justify-center transition-colors",
-              isDragOver
-                ? "bg-primary/20 text-primary"
-                : "bg-white/5 text-muted-foreground"
+              "transition-colors",
+              isDragging ? "text-accent" : "text-text-muted"
             )}
-          >
-            <CloudUpload size={32} />
-          </div>
-          <div>
-            <p className="text-base font-medium text-foreground">
-              {isDragOver ? "Drop files here" : "Drag & drop your documents"}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">
-              or click to browse · PDF, DOCX, TXT · Max 50MB
-            </p>
-          </div>
+          />
+        </div>
+
+        <div className="text-center">
+          <p className="text-sm font-semibold text-text-primary">
+            {isDragging ? "Drop files here" : "Drop PDF, DOCX, or TXT files here"}
+          </p>
+          <p className="text-xs text-text-muted mt-1">or click to browse · Max 50MB per file</p>
+        </div>
+
+        <div className="flex gap-2">
+          {["PDF", "DOCX", "TXT"].map((fmt) => (
+            <span
+              key={fmt}
+              className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-raised text-text-muted border border-subtle"
+            >
+              {fmt}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Upload List */}
-      <AnimatePresence>
-        {uploads.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-3"
-          >
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-              <Layers size={16} className="text-primary" />
-              Uploaded Documents ({uploads.length})
-            </h3>
-            <div className="space-y-2">
-              {uploads.map((entry) => (
-                <motion.div
-                  key={entry.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  className="glass-card flex items-center gap-4"
-                >
-                  {/* Icon */}
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
-                    {getFileIcon(entry.file.name)}
-                  </div>
+      {/* File Queue */}
+      {files.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold text-text-secondary uppercase tracking-wider">
+              Files ({files.length})
+            </p>
+            {files.some((f) => f.status === "pending") && (
+              <button
+                onClick={handleUploadAll}
+                className="px-3 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold hover:bg-accent-dim transition-colors"
+              >
+                Upload All
+              </button>
+            )}
+          </div>
 
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">
-                      {entry.file.name}
-                    </p>
-                    <div className="flex items-center gap-3 mt-0.5">
-                      <span className="text-xs text-muted-foreground">
-                        {(entry.file.size / 1024).toFixed(0)} KB
-                      </span>
-                      {entry.result && (
-                        <span className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Layers size={10} />
-                          {entry.result.chunks_created} chunks
-                        </span>
-                      )}
-                    </div>
+          <AnimatePresence>
+            {files.map((entry, i) => (
+              <motion.div
+                key={`${entry.file.name}-${i}`}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl glass-card"
+              >
+                {getIcon(entry.file.name)}
 
-                    {/* Progress bar */}
-                    {entry.status === "uploading" && (
-                      <div className="w-full h-1 rounded-full bg-white/5 mt-2 overflow-hidden">
-                        <motion.div
-                          className="h-full bg-primary rounded-full"
-                          initial={{ width: 0 }}
-                          animate={{ width: `${entry.progress}%` }}
-                          transition={{ duration: 0.5 }}
-                        />
-                      </div>
-                    )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-text-primary truncate">
+                    {entry.file.name}
+                  </p>
+                  <p className="text-[10px] text-text-muted mt-0.5">
+                    {formatSize(entry.file.size)}
+                    {entry.chunks !== undefined && ` · ${entry.chunks} chunks`}
+                  </p>
+                </div>
 
-                    {entry.error && (
-                      <p className="text-xs text-destructive mt-1">{entry.error}</p>
-                    )}
-                  </div>
-
-                  {/* Status */}
-                  <div className="flex items-center gap-2 shrink-0">
-                    {entry.status === "uploading" && (
-                      <Badge variant="info" dot>
-                        Uploading
-                      </Badge>
-                    )}
-                    {entry.status === "success" && (
-                      <Badge variant="success" dot>
-                        <CheckCircle2 size={12} className="mr-1" />
-                        Indexed
-                      </Badge>
-                    )}
-                    {entry.status === "error" && (
-                      <Badge variant="danger" dot>
-                        <AlertCircle size={12} className="mr-1" />
-                        Failed
-                      </Badge>
-                    )}
+                {/* Status */}
+                <div className="flex items-center gap-2 shrink-0">
+                  {entry.status === "pending" && (
                     <button
-                      onClick={() => removeEntry(entry.id)}
-                      className="p-1 rounded-md hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
+                      onClick={() => handleUpload(i)}
+                      className="px-2.5 py-1 rounded-md bg-accent/10 text-accent text-[10px] font-bold hover:bg-accent/20 transition-colors"
                     >
-                      <X size={14} />
+                      Upload
                     </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  )}
+                  {entry.status === "uploading" && (
+                    <div className="flex items-center gap-1.5 text-accent">
+                      <Loader2 size={14} className="animate-spin" />
+                      <span className="text-[10px] font-medium">Uploading...</span>
+                    </div>
+                  )}
+                  {entry.status === "indexed" && (
+                    <div className="flex items-center gap-1.5 text-success">
+                      <CheckCircle2 size={14} />
+                      <span className="text-[10px] font-bold">Indexed</span>
+                    </div>
+                  )}
+                  {entry.status === "error" && (
+                    <div className="flex items-center gap-1.5 text-danger">
+                      <XCircle size={14} />
+                      <span className="text-[10px] font-medium">{entry.error}</span>
+                    </div>
+                  )}
+                  <button
+                    onClick={() => removeFile(i)}
+                    className="text-text-muted hover:text-danger transition-colors"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 }

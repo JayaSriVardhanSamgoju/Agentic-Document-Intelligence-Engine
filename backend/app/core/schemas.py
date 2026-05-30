@@ -44,6 +44,8 @@ class QueryResponse(BaseModel):
         le=1,
         description="Confidence score between 0 and 1"
     )
+    
+    source_type: str = "unknown"
 
     citations: List[Citation]
     reasoning: str

@@ -59,13 +59,24 @@ class RetrieverAgent:
                 )
             ]
 
+        query_type = state.get("query_type", "document_question")
+
         logger.info(
             f"Running retrieval "
             f"for {len(sub_queries)} "
-            f"queries"
+            f"queries. Type: {query_type}"
         )
 
         retrieved_docs = []
+
+        if query_type == "general_knowledge":
+            logger.info("Skipping document retrieval for general knowledge query.")
+            return {
+                **state,
+                "retrieved_docs": [],
+                "context": "",
+                "agent_trace": add_trace(state, "retriever", status="skipped")
+            }
 
         # --------------------------
         # Execute Retrieval

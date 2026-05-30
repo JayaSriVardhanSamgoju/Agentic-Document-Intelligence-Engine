@@ -20,6 +20,12 @@ class AgentState(TypedDict):
         List[str]
     ]
 
+    query_type: Optional[str]
+
+    web_results: Optional[list]
+
+    source_type: Optional[str]
+
     retrieved_docs: Optional[
         List[Document]
     ]

@@ -1,26 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 interface StreamingTextProps {
-  content: string;
-  isStreaming: boolean;
+  text: string;
 }
 
-export function StreamingText({ content, isStreaming }: StreamingTextProps) {
-  const [displayText, setDisplayText] = useState(content);
-
-  useEffect(() => {
-    setDisplayText(content);
-  }, [content]);
-
+export function StreamingText({ text }: StreamingTextProps) {
   return (
-    <div className="prose prose-invert prose-chat max-w-none">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-        {displayText + (isStreaming ? " ▋" : "")}
-      </ReactMarkdown>
+    <div className="prose-chat text-text-primary text-sm">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+      <span className="inline-block w-0.5 h-4 bg-accent ml-0.5 animate-blink align-middle" />
     </div>
   );
 }

@@ -119,8 +119,7 @@ class QueryService:
             "Workflow execution completed"
         )
 
-        print("\nFINAL RESULT:")
-        print(result)
+        logger.debug("Final result generated.")
 
         # --------------------------
         # Safe Result Extraction
@@ -142,6 +141,13 @@ class QueryService:
             result.get(
                 "citations",
                 []
+            )
+        )
+
+        source_type = (
+            result.get(
+                "source_type",
+                "unknown"
             )
         )
 
@@ -234,6 +240,9 @@ class QueryService:
 
             "citations":
             citations,
+            
+            "source_type":
+            source_type,
 
             "agent_trace":
             agent_trace,

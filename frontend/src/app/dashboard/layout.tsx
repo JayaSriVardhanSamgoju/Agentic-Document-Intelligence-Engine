@@ -6,14 +6,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { TopNav } from "@/components/layout/TopNav";
 import { Spinner } from "@/components/ui/Spinner";
-import { Menu } from "lucide-react";
+import { Home, LogOut } from "lucide-react";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -25,10 +25,12 @@ export default function DashboardLayout({
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-void flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <Spinner size="lg" />
-          <p className="text-sm text-muted-foreground animate-pulse">Loading...</p>
+          <p className="text-sm text-text-secondary animate-pulse">
+            Loading...
+          </p>
         </div>
       </div>
     );
@@ -37,7 +39,7 @@ export default function DashboardLayout({
   if (!isAuthenticated) return null;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-void">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
@@ -58,9 +60,25 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <TopNav onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto">{children}</main>
+      </div>
+
+      {/* Right-side fixed action buttons */}
+      <div className="hidden md:flex fixed right-4 top-20 flex-col gap-2 z-30">
+        <button
+          onClick={() => router.push("/")}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg glass text-xs text-text-secondary hover:text-text-primary transition-colors"
+        >
+          <Home size={14} />
+          Landing
+        </button>
+        <button
+          onClick={logout}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg glass text-xs text-danger/80 hover:text-danger hover:bg-danger/5 transition-colors"
+        >
+          <LogOut size={14} />
+          Logout
+        </button>
       </div>
     </div>
   );

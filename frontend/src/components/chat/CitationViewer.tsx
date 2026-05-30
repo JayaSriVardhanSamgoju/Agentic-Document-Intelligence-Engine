@@ -1,38 +1,64 @@
 "use client";
 
 import type { Citation } from "@/types";
-import { FileText, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { FileText, ExternalLink } from "lucide-react";
 
 interface CitationViewerProps {
   citations: Citation[];
 }
 
 export function CitationViewer({ citations }: CitationViewerProps) {
-  if (!citations || citations.length === 0) return null;
-
   return (
-    <div className="flex flex-wrap gap-2">
-      {citations.map((citation, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: index * 0.05 }}
-          className="flex items-center gap-2 text-xs px-2.5 py-1.5 rounded-lg bg-primary/5 hover:bg-primary/10 border border-primary/10 hover:border-primary/20 text-blue-300 hover:text-blue-200 transition-all cursor-default group"
-        >
-          <FileText size={12} className="text-primary/60 group-hover:text-primary shrink-0" />
-          <span className="truncate max-w-[140px]">{citation.source}</span>
-          {citation.chunk_id !== null && (
-            <>
-              <ChevronRight size={10} className="text-muted-foreground/40" />
-              <span className="text-muted-foreground font-mono">
-                #{citation.chunk_id}
+    <div>
+      <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2">
+        Sources ({citations.length})
+      </p>
+      <div className="grid gap-1.5">
+        {citations.map((citation, i) => (
+          <div
+            key={i}
+            className="flex items-start gap-3 px-3 py-2.5 rounded-lg bg-raised/30 border border-subtle hover:border-default transition-colors group cursor-default"
+          >
+            {/* Number badge */}
+            <div className="w-5 h-5 rounded-md bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
+              <span className="text-[10px] font-bold text-accent">
+                {i + 1}
               </span>
-            </>
-          )}
-        </motion.div>
-      ))}
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <FileText size={12} className="text-text-muted shrink-0" />
+                <span className="text-xs font-semibold text-text-primary truncate">
+                  {citation.source}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 mt-0.5">
+                {citation.chunk_id !== null && (
+                  <span className="text-[10px] font-mono text-text-muted">
+                    Chunk #{citation.chunk_id}
+                  </span>
+                )}
+                {citation.section && (
+                  <>
+                    <span className="text-text-muted">·</span>
+                    <span className="text-[10px] text-text-muted truncate">
+                      {citation.section}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Link indicator */}
+            <ExternalLink
+              size={12}
+              className="text-text-muted opacity-0 group-hover:opacity-100 transition-opacity shrink-0 mt-1"
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

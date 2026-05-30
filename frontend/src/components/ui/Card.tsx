@@ -1,32 +1,34 @@
+import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
-import { type ReactNode } from "react";
 
-interface CardProps {
-  children: ReactNode;
-  className?: string;
-  hover?: boolean;
-}
+export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("glass-card", className)}
+      {...props}
+    />
+  )
+);
+Card.displayName = "Card";
 
-export function Card({ children, className, hover }: CardProps) {
-  return (
-    <div className={cn(hover ? "glass-card-hover" : "glass-card", className)}>
-      {children}
-    </div>
-  );
-}
+export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("mb-4 flex items-center justify-between", className)} {...props} />
+  )
+);
+CardHeader.displayName = "CardHeader";
 
-export function CardHeader({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("mb-4", className)}>{children}</div>;
-}
+export const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    <h3 ref={ref} className={cn("text-sm font-bold text-text-primary", className)} {...props} />
+  )
+);
+CardTitle.displayName = "CardTitle";
 
-export function CardTitle({ children, className }: { children: ReactNode; className?: string }) {
-  return <h3 className={cn("text-base font-semibold text-foreground", className)}>{children}</h3>;
-}
-
-export function CardDescription({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={cn("text-sm text-muted-foreground mt-1", className)}>{children}</p>;
-}
-
-export function CardContent({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn(className)}>{children}</div>;
-}
+export const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("", className)} {...props} />
+  )
+);
+CardContent.displayName = "CardContent";

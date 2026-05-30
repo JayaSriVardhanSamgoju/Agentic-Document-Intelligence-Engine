@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { queryStream } from "@/services/api";
 
 interface UseStreamingQueryReturn {
   streamedText: string;
   isStreaming: boolean;
   error: string | null;
-  startStream: (query: string, sessionId: string, token: string) => Promise<void>;
+  startStream: (query: string, sessionId: string) => Promise<void>;
   stopStream: () => void;
   reset: () => void;
 }
@@ -16,12 +16,12 @@ export function useStreamingQuery(): UseStreamingQueryReturn {
   const [streamedText, setStreamedText] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [abortController, setAbortController] = useState<AbortController | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const stopStream = useCallback(() => {
-    abortController?.abort();
+    abortRef.current?.abort();
     setIsStreaming(false);
-  }, [abortController]);
+  }, []);
 
   const reset = useCallback(() => {
     setStreamedText("");
@@ -30,15 +30,15 @@ export function useStreamingQuery(): UseStreamingQueryReturn {
   }, []);
 
   const startStream = useCallback(
-    async (query: string, sessionId: string, token: string) => {
+    async (query: string, sessionId: string) => {
       const controller = new AbortController();
-      setAbortController(controller);
+      abortRef.current = controller;
       setStreamedText("");
       setError(null);
       setIsStreaming(true);
 
       try {
-        const response = await queryStream(query, sessionId, token);
+        const response = await queryStream(query, sessionId, controller.signal);
         const reader = response.body?.getReader();
 
         if (!reader) {
